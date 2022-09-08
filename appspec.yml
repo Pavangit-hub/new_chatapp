@@ -4,11 +4,18 @@ files:
   - source: /fundoo/fundooapp/templates/index.html
     destination: /var/www/html/
 hooks:
-  BeforeInstall:
-    - location: scripts/install_dependencies
-      timeout: 300
-      runas: root
-    - location: scripts/start_server
-      timeout: 300
-      runas: root
-
+    BeforeBlockTraffic:
+        - location: scripts/before_block_traffic.sh
+    AfterBlockTraffic:
+        - location: scripts/after_block_traffic.sh
+    BeforeInstall:
+        - location: scripts/install_dependencies
+        timeout: 300
+        runas: root
+        - location: scripts/start_server
+        timeout: 300
+        runas: root
+    BeforeAllowTraffic:
+        - location: scripts/before_allow_traffic.sh
+    AfterAllowTraffic:
+        - location: scripts/after_allow_traffic.sh
